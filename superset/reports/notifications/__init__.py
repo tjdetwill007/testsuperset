@@ -21,12 +21,11 @@ from superset.reports.notifications.base import (
 from superset.reports.notifications.email import EmailNotification
 from superset.reports.notifications.slack import SlackNotification
 from superset.reports.notifications.S3 import S3Notification
-
+# pylint: disable=invalid-name
 def create_notification(
         recipient: ReportRecipients,
         notification_content: NotificationContent,
-        aws_Configuration: AwsConfiguration = None # pylint: disable=invalid-name
-        ) -> BaseNotification:
+        aws_Configuration: AwsConfiguration = None) -> BaseNotification:
     """
     Notification polymorphic factory
     Returns the Notification class for the recipient type

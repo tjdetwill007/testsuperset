@@ -213,7 +213,7 @@ class ReportSchedulePostSchema(Schema):
     aws_S3_types= fields.String(default=None, missing=None)
 
     @validates_schema
-    def validate_report_references(  # pylint: disable=unused-argument
+    def validate_report_references(  # pylint: disable=unused-argument,no-self-use
         self, data: Dict[str, Any], **kwargs: Any
     ) -> None:
         if data["type"] == ReportScheduleType.REPORT:
@@ -224,7 +224,7 @@ class ReportSchedulePostSchema(Schema):
 
 
     @validates_schema
-    def validate_aws_fields(self, data,**kwargs): # pylint: disable=unused-argument
+    def validate_aws_fields(self, data,**kwargs): # pylint: disable=unused-argument,no-self-use
 
         if (
             data["recipients"][0]["type"] == ReportRecipientType.S3

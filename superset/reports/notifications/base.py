@@ -64,11 +64,10 @@ class BaseNotification:  # pylint: disable=too-few-public-methods
     def __init__(
         self, recipient: ReportRecipients,
         content: NotificationContent,
-        awsConfiguration: AwsConfiguration = None # pylint: disable=invalid-name
-    ) -> None:
+        awsConfiguration: AwsConfiguration = None) -> None:
         self._recipient = recipient
         self._content = content
-        self._awsConfiguration=awsConfiguration # pylint: disable=invalid-name
+        self._awsConfiguration=awsConfiguration
 
     def send(self) -> None:
         raise NotImplementedError()
