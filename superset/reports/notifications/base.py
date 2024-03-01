@@ -60,7 +60,7 @@ class BaseNotification:  # pylint: disable=too-few-public-methods
     def __init_subclass__(cls, *args: Any, **kwargs: Any) -> None:
         super().__init_subclass__(*args, **kwargs)
         cls.plugins.append(cls)
-
+    # pylint: disable=invalid-name
     def __init__(
         self, recipient: ReportRecipients,
         content: NotificationContent,

@@ -97,7 +97,11 @@ class S3Notification(BaseNotification): # pylint: disable=too-few-public-methods
                     aws_secret_access_key=aws_secret_access_key
                     )
             else:
-                msg=f"Unsupported AWS S3 method, Must be {S3SubTypes.S3_CONFIG} | {S3SubTypes.S3_CRED} | {S3SubTypes.S3_ROLE}"
+                msg = (
+    f"Unsupported AWS S3 method, Must be {S3SubTypes.S3_CONFIG} | "
+    f"{S3SubTypes.S3_CRED} | {S3SubTypes.S3_ROLE}"
+)
+
                 logger.error(msg)
         except SupersetErrorsException as ex:
             raise NotificationError(
