@@ -399,6 +399,7 @@ def cached_common_bootstrap_data(user: User) -> Dict[str, Any]:
     The function is memoized as the return value only changes when user permissions
     or configuration values change.
     """
+    # pylint: disable=line-too-long, invalid-name
     locale = str(get_locale())
 
     # should not expose API TOKEN to frontend

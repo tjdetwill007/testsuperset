@@ -37,6 +37,7 @@ class NotificationContent:
 
 @dataclass
 class AwsConfiguration:
+    # pylint: disable=invalid-name
     aws_key: Optional[str] = None
     aws_secretKey: Optional[str]=None
     aws_S3_types: Optional[str]=None
@@ -61,11 +62,13 @@ class BaseNotification:  # pylint: disable=too-few-public-methods
         cls.plugins.append(cls)
 
     def __init__(
-        self, recipient: ReportRecipients, content: NotificationContent, awsConfiguration: AwsConfiguration = None
+        self, recipient: ReportRecipients,
+        content: NotificationContent,
+        awsConfiguration: AwsConfiguration = None # pylint: disable=invalid-name
     ) -> None:
         self._recipient = recipient
         self._content = content
-        self._awsConfiguration=awsConfiguration
+        self._awsConfiguration=awsConfiguration # pylint: disable=invalid-name
 
     def send(self) -> None:
         raise NotImplementedError()

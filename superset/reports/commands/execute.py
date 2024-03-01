@@ -389,7 +389,7 @@ class BaseReportState:
             header_data=header_data
         )
     def _get_aws_configuration(self) -> AwsConfiguration:
-
+        # pylint: disable=invalid-name
         aws_key=self._report_schedule.aws_key
         aws_secretKey=self._report_schedule.aws_secretKey
         aws_S3_types=self._report_schedule.aws_S3_types
@@ -412,8 +412,11 @@ class BaseReportState:
         notification_errors: List[SupersetError] = []
         for recipient in recipients:
             if recipient.type == ReportRecipientType.S3:
-                aws_Configuration=self._get_aws_configuration()
-                notification = create_notification(recipient, notification_content, aws_Configuration)
+                aws_Configuration=self._get_aws_configuration() # pylint: disable=invalid-name
+                notification = create_notification(
+                    recipient,
+                    notification_content,
+                    aws_Configuration)
             else:
                 notification = create_notification(recipient, notification_content)
             try:

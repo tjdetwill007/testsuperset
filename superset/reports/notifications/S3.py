@@ -4,7 +4,6 @@ from io import BytesIO
 from uuid import uuid4
 import datetime
 import boto3
-from flask_babel import gettext as __
 from superset import app
 from superset.exceptions import SupersetErrorsException
 from superset.reports.models import ReportRecipientType
@@ -13,7 +12,7 @@ from superset.reports.notifications.exceptions import NotificationError
 
 logger = logging.getLogger(__name__)
 
-class S3SubTypes:
+class S3SubTypes: # pylint: disable=too-few-public-methods
     """
     Defines different types of AWS S3 configurations.
     """
@@ -22,8 +21,8 @@ class S3SubTypes:
     S3_ROLE = 'AWS_S3_IAM'
 
 
-class S3Notification(BaseNotification):
-
+class S3Notification(BaseNotification): # pylint: disable=too-few-public-methods
+    # pylint: disable= too-many-arguments, invalid-name
     type = ReportRecipientType.S3
     def _get_inline_files(self):
         current_datetime = datetime.datetime.now()
@@ -98,10 +97,8 @@ class S3Notification(BaseNotification):
                     aws_secret_access_key=aws_secret_access_key
                     )
             else:
-                logger.error(
-                    f"Unsupported AWS S3 method, Must be {S3SubTypes.S3_CONFIG} | {S3SubTypes.S3_CRED} | {S3SubTypes.S3_ROLE}"
-                    )
-
+                msg=f"Unsupported AWS S3 method, Must be {S3SubTypes.S3_CONFIG} | {S3SubTypes.S3_CRED} | {S3SubTypes.S3_ROLE}" # pylint: disable=line-too-long
+                logger.error(msg)
         except SupersetErrorsException as ex:
             raise NotificationError(
                 ";".join([error.message for error in ex.errors])
