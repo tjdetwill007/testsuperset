@@ -35,12 +35,14 @@ class NotificationContent:
     url: Optional[str] = None  # url to chart/dashboard for this screenshot
     embedded_data: Optional[pd.DataFrame] = None
 
+
 @dataclass
 class AwsConfiguration:
     # pylint: disable=invalid-name
     aws_key: Optional[str] = None
-    aws_secretKey: Optional[str]=None
-    aws_S3_types: Optional[str]=None
+    aws_secretKey: Optional[str] = None
+    aws_S3_types: Optional[str] = None
+
 
 class BaseNotification:  # pylint: disable=too-few-public-methods
     """
@@ -60,14 +62,17 @@ class BaseNotification:  # pylint: disable=too-few-public-methods
     def __init_subclass__(cls, *args: Any, **kwargs: Any) -> None:
         super().__init_subclass__(*args, **kwargs)
         cls.plugins.append(cls)
+
     # pylint: disable=invalid-name
     def __init__(
-        self, recipient: ReportRecipients,
+        self,
+        recipient: ReportRecipients,
         content: NotificationContent,
-        awsConfiguration: AwsConfiguration = None) -> None:
+        awsConfiguration: AwsConfiguration = None,
+    ) -> None:
         self._recipient = recipient
         self._content = content
-        self._awsConfiguration=awsConfiguration
+        self._awsConfiguration = awsConfiguration
 
     def send(self) -> None:
         raise NotImplementedError()

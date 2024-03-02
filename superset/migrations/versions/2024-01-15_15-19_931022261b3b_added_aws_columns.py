@@ -23,22 +23,34 @@ Create Date: 2024-01-15 15:19:52.548672
 """
 
 # revision identifiers, used by Alembic.
-revision = '931022261b3b'
-down_revision = 'f3c2d8ec8595'
+revision = "931022261b3b"
+down_revision = "f3c2d8ec8595"
 
-from alembic import op
 import sqlalchemy as sa
+from alembic import op
 from sqlalchemy.dialects import postgresql
-from superset.extensions import encrypted_field_factory
 from sqlalchemy_utils import EncryptedType
+
+from superset.extensions import encrypted_field_factory
+
+
 def upgrade():
 
-    op.add_column('report_schedule', sa.Column('aws_key', EncryptedType(sa.String(1024)), nullable=True))
-    op.add_column('report_schedule', sa.Column('aws_secretKey', EncryptedType(sa.String(1024)), nullable=True))
-    op.add_column('report_schedule', sa.Column('aws_S3_types', sa.String(length=200), nullable=True))
+    op.add_column(
+        "report_schedule",
+        sa.Column("aws_key", EncryptedType(sa.String(1024)), nullable=True),
+    )
+    op.add_column(
+        "report_schedule",
+        sa.Column("aws_secretKey", EncryptedType(sa.String(1024)), nullable=True),
+    )
+    op.add_column(
+        "report_schedule",
+        sa.Column("aws_S3_types", sa.String(length=200), nullable=True),
+    )
 
 
 def downgrade():
-    op.drop_column('report_schedule', 'aws_key')
-    op.drop_column('report_schedule', 'aws_secretKey')
-    op.drop_column('report_schedule', 'aws_S3_types')
+    op.drop_column("report_schedule", "aws_key")
+    op.drop_column("report_schedule", "aws_secretKey")
+    op.drop_column("report_schedule", "aws_S3_types")

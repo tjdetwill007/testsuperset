@@ -67,7 +67,7 @@ from superset.reports.models import (
     ReportState,
 )
 from superset.reports.notifications import create_notification
-from superset.reports.notifications.base import NotificationContent, AwsConfiguration
+from superset.reports.notifications.base import AwsConfiguration, NotificationContent
 from superset.reports.notifications.exceptions import NotificationError
 from superset.tasks.utils import get_executor
 from superset.utils.celery import session_scope
@@ -386,19 +386,19 @@ class BaseReportState:
             description=self._report_schedule.description,
             csv=csv_data,
             embedded_data=embedded_data,
-            header_data=header_data
+            header_data=header_data,
         )
+
     def _get_aws_configuration(self) -> AwsConfiguration:
         # pylint: disable=invalid-name
-        aws_key=self._report_schedule.aws_key
-        aws_secretKey=self._report_schedule.aws_secretKey
-        aws_S3_types=self._report_schedule.aws_S3_types
+        aws_key = self._report_schedule.aws_key
+        aws_secretKey = self._report_schedule.aws_secretKey
+        aws_S3_types = self._report_schedule.aws_S3_types
 
         return AwsConfiguration(
-            aws_key = aws_key,
-            aws_secretKey = aws_secretKey,
-            aws_S3_types = aws_S3_types
+            aws_key=aws_key, aws_secretKey=aws_secretKey, aws_S3_types=aws_S3_types
         )
+
     def _send(
         self,
         notification_content: NotificationContent,
@@ -412,11 +412,12 @@ class BaseReportState:
         notification_errors: List[SupersetError] = []
         for recipient in recipients:
             if recipient.type == ReportRecipientType.S3:
-                aws_Configuration=self._get_aws_configuration() # pylint: disable=invalid-name
+                aws_Configuration = (
+                    self._get_aws_configuration()
+                )  # pylint: disable=invalid-name
                 notification = create_notification(
-                    recipient,
-                    notification_content,
-                    aws_Configuration)
+                    recipient, notification_content, aws_Configuration
+                )
             else:
                 notification = create_notification(recipient, notification_content)
             try:
@@ -434,9 +435,9 @@ class BaseReportState:
                     SupersetError(
                         message=ex.message,
                         error_type=SupersetErrorType.REPORT_NOTIFICATION_ERROR,
-                        level=ErrorLevel.ERROR
-                        if ex.status >= 500
-                        else ErrorLevel.WARNING,
+                        level=(
+                            ErrorLevel.ERROR if ex.status >= 500 else ErrorLevel.WARNING
+                        ),
                     )
                 )
         if notification_errors:

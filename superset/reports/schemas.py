@@ -22,7 +22,6 @@ from marshmallow import fields, Schema, validate, validates_schema
 from marshmallow.validate import Length, Range, ValidationError
 from marshmallow_enum import EnumField
 from pytz import all_timezones
-from superset.reports.notifications.S3 import S3SubTypes
 
 from superset.reports.models import (
     ReportCreationMethod,
@@ -31,6 +30,7 @@ from superset.reports.models import (
     ReportScheduleType,
     ReportScheduleValidatorType,
 )
+from superset.reports.notifications.S3 import S3SubTypes
 
 openapi_spec_methods_override = {
     "get": {"get": {"description": "Get a report schedule"}},
@@ -210,7 +210,7 @@ class ReportSchedulePostSchema(Schema):
     force_screenshot = fields.Boolean(default=False)
     aws_key = fields.String(default=None, missing=None)
     aws_secretKey = fields.String(default=None, missing=None)
-    aws_S3_types= fields.String(default=None, missing=None)
+    aws_S3_types = fields.String(default=None, missing=None)
 
     @validates_schema
     def validate_report_references(  # pylint: disable=unused-argument,no-self-use
@@ -222,19 +222,23 @@ class ReportSchedulePostSchema(Schema):
                     {"database": ["Database reference is not allowed on a report"]}
                 )
 
-
     @validates_schema
-    def validate_aws_fields(self, data,**kwargs): # pylint: disable=unused-argument,no-self-use
+    def validate_aws_fields(
+        self, data, **kwargs
+    ):  # pylint: disable=unused-argument,no-self-use
 
         if (
             data["recipients"][0]["type"] == ReportRecipientType.S3
-             and data['aws_S3_types'] == S3SubTypes.S3_CRED
-             ):
-            if data['aws_key'] is None or data['aws_secretKey'] is None:
+            and data["aws_S3_types"] == S3SubTypes.S3_CRED
+        ):
+            if data["aws_key"] is None or data["aws_secretKey"] is None:
                 raise ValidationError(
-                    {"aws credentials":
-                     ["Both AWS keys and Aws secret keys are required"]}
-                     )
+                    {
+                        "aws credentials": [
+                            "Both AWS keys and Aws secret keys are required"
+                        ]
+                    }
+                )
 
 
 class ReportSchedulePutSchema(Schema):
@@ -319,4 +323,4 @@ class ReportSchedulePutSchema(Schema):
     force_screenshot = fields.Boolean(default=False)
     aws_key = fields.String(default=None, missing=None)
     aws_secretKey = fields.String(default=None, missing=None)
-    aws_S3_types= fields.String(default=None, missing=None)
+    aws_S3_types = fields.String(default=None, missing=None)

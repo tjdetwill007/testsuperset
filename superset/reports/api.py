@@ -212,7 +212,6 @@ class ReportScheduleRestApi(BaseSupersetModelRestApi):
         "creation_method",
         "dashboard_id",
         "chart_id",
-
     ]
     search_filters = {"name": [ReportScheduleAllTextFilter]}
     allowed_rel_fields = {"owners", "chart", "dashboard", "database", "created_by"}

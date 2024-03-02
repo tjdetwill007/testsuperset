@@ -105,10 +105,10 @@ ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 
 # AWS S3 reporting - uncomment to use
 # FEATURE_FLAGS = {"ALERT_REPORTS": True, "ENABLE_AWS": True}
-#ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
+# ALERT_REPORTS_NOTIFICATION_DRY_RUN = False
 # AWS Credentials
-#AWS_ACCESS_KEY = '####'
-#AWS_SECRET_KEY = '####'
+# AWS_ACCESS_KEY = '####'
+# AWS_SECRET_KEY = '####'
 
 
 # ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
@@ -131,4 +131,3 @@ try:
     )
 except ImportError:
     logger.info("Using default Docker config...")
-

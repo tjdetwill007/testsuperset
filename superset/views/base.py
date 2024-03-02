@@ -379,14 +379,18 @@ def menu_data(user: User) -> Dict[str, Any]:
             "languages": languages,
             "show_language_picker": len(languages.keys()) > 1,
             "user_is_anonymous": user.is_anonymous,
-            "user_info_url": None
-            if appbuilder.app.config["MENU_HIDE_USER_INFO"]
-            else appbuilder.get_url_for_userinfo,
+            "user_info_url": (
+                None
+                if appbuilder.app.config["MENU_HIDE_USER_INFO"]
+                else appbuilder.get_url_for_userinfo
+            ),
             "user_logout_url": appbuilder.get_url_for_logout,
             "user_login_url": appbuilder.get_url_for_login,
-            "user_profile_url": None
-            if user.is_anonymous or appbuilder.app.config["MENU_HIDE_USER_INFO"]
-            else f"/superset/profile/{user.username}",
+            "user_profile_url": (
+                None
+                if user.is_anonymous or appbuilder.app.config["MENU_HIDE_USER_INFO"]
+                else f"/superset/profile/{user.username}"
+            ),
             "locale": session.get("locale", "en"),
         },
     }
@@ -407,13 +411,21 @@ def cached_common_bootstrap_data(user: User) -> Dict[str, Any]:
         k: (list(conf.get(k)) if isinstance(conf.get(k), set) else conf.get(k))
         for k in FRONTEND_CONF_KEYS
     }
-    isAwsConfigured = get_feature_flags()['ENABLE_AWS'] if "ENABLE_AWS" in get_feature_flags() else False
+    isAwsConfigured = (
+        get_feature_flags()["ENABLE_AWS"]
+        if "ENABLE_AWS" in get_feature_flags()
+        else False
+    )
 
     frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"] = [ReportRecipientType.EMAIL]
     if conf.get("SLACK_API_TOKEN"):
-        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"].append(ReportRecipientType.SLACK)
+        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"].append(
+            ReportRecipientType.SLACK
+        )
     if isAwsConfigured:
-        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"].append(ReportRecipientType.S3)
+        frontend_config["ALERT_REPORTS_NOTIFICATION_METHODS"].append(
+            ReportRecipientType.S3
+        )
 
     # verify client has google sheets installed
     available_specs = get_available_engine_specs()

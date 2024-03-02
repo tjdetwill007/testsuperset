@@ -35,7 +35,7 @@ from sqlalchemy.orm import backref, relationship
 from sqlalchemy.schema import UniqueConstraint
 from sqlalchemy_utils import UUIDType
 
-from superset.extensions import security_manager, encrypted_field_factory
+from superset.extensions import encrypted_field_factory, security_manager
 from superset.models.core import Database
 from superset.models.dashboard import Dashboard
 from superset.models.helpers import AuditMixinNullable, ExtraJSONMixin
@@ -61,6 +61,7 @@ class ReportRecipientType(str, enum.Enum):
     EMAIL = "Email"
     SLACK = "Slack"
     S3 = "S3"
+
 
 class ReportState(str, enum.Enum):
     SUCCESS = "Success"
@@ -100,7 +101,6 @@ report_schedule_user = Table(
 
 
 class ReportSchedule(Model, AuditMixinNullable, ExtraJSONMixin):
-
     """
     Report Schedules, supports alerts and reports
     """
@@ -153,9 +153,9 @@ class ReportSchedule(Model, AuditMixinNullable, ExtraJSONMixin):
 
     # (Reports) When generating a screenshot, bypass the cache?
     force_screenshot = Column(Boolean, default=False)
-    aws_key= Column(encrypted_field_factory.create(String(1024)))
-    aws_secretKey= Column(encrypted_field_factory.create(String(1024)))
-    aws_S3_types= Column(String(200))
+    aws_key = Column(encrypted_field_factory.create(String(1024)))
+    aws_secretKey = Column(encrypted_field_factory.create(String(1024)))
+    aws_S3_types = Column(String(200))
     extra: ReportScheduleExtra  # type: ignore
 
     def __repr__(self) -> str:
@@ -186,7 +186,6 @@ class ReportRecipients(Model, AuditMixinNullable):
 
 
 class ReportExecutionLog(Model):  # pylint: disable=too-few-public-methods
-
     """
     Report Execution Log, hold the result of the report execution with timestamps,
     last observation and possible error messages
