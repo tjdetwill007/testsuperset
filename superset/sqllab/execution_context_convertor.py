@@ -32,7 +32,7 @@ if TYPE_CHECKING:
     from superset.sqllab.sql_json_executer import SqlResults
     from superset.sqllab.sqllab_execution_context import SqlJsonExecutionContext
 
-
+# type: ignore
 class ExecutionContextConvertor:
     _max_row_in_display_configuration: int  # pylint: disable=invalid-name
     _exc_status: SqlJsonExecutionStatus
